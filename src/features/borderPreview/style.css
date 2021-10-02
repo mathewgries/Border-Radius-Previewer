@@ -1,0 +1,21 @@
+.border-box {
+  height: 300px;
+  width: 500px;
+	margin-bottom: 10px;
+  background-color: tan;
+  border: 5px slategrey solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  font-size: calc(10px + 2vmin);
+	margin: 5px;
+}
+
+.style-preview {
+ width: 90%;
+ font-size: 18px;
+}
