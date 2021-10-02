@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { updateRadius } from "./borderPreviewSlice";
 import "./style.css";
 
 const StylePreview = ({ styles }) => {
-  let renderCSSFormat = 'style {\n'
-	for(let style in styles){
-		renderCSSFormat += `\t${styles[style].str}: ${styles[style].value}%;\n`
-	}
-	renderCSSFormat+= '}'
+  let renderCSSFormat = "style {\n";
+  for (let style in styles) {
+    renderCSSFormat += `\t${styles[style].str}: ${styles[style].value}%;\n`;
+  }
+  renderCSSFormat += "}";
 
   return (
     <div>
@@ -16,33 +18,19 @@ const StylePreview = ({ styles }) => {
 };
 
 export const BorderPreview = () => {
-  const [styles, setStyles] = useState({
-    borderTopLeftRadius: {
-      value: "0",
-      str: "border-top-left-radius",
-    },
-    borderTopRightRadius: {
-      value: "0",
-      str: "border-top-right-radius",
-    },
-    borderBottomLeftRadius: {
-      value: "0",
-      str: "border-bottom-left-radius",
-    },
-    borderBottomRightRadius: {
-      value: "0",
-      str: "border-bottom-right-radius",
-    },
-  });
+  const dispatch = useDispatch();
+  const styles = useSelector((state) => state.borderPreview);
 
   const handleInputChange = ({ name, value }) => {
-    setStyles({
-			...styles,
-			[name]: {
-				...styles[name],
-				value: value
-			}
-		});
+    if (value.length > 1 && value.charAt(0) === "0") {
+      value = value.substring(1);
+    }
+
+    if (value === "") {
+      value = "0";
+    }
+
+    dispatch(updateRadius({ name, value }));
   };
 
   const renderBorderBox = () => {
@@ -60,8 +48,6 @@ export const BorderPreview = () => {
       </div>
     );
   };
-
-  // top-left, top-right, bottom-left, bottom-right
 
   const renderForm = () => {
     return (
